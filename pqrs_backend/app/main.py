@@ -37,7 +37,7 @@ async def lifespan(app: FastAPI):
     else:
         logger.warning("⚠️  No se pudo conectar a la BD")
     
-    logger.info(f"🌍 Modo: {settings.ENVIRONMENT}")
+    logger.info(f"🌐 Modo: {settings.ENVIRONMENT}")
     logger.info(f"🔧 Debug: {settings.DEBUG}")
     
     yield
@@ -52,6 +52,10 @@ app = FastAPI(
     openapi_url="/openapi.json" if settings.DEBUG else None,
     lifespan=lifespan,
 )
+
+# Incluir routers
+from app.routers import api_router
+app.include_router(api_router, prefix="/api")
 
 app.add_middleware(
     CORSMiddleware,
