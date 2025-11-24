@@ -22,12 +22,16 @@ class PQRSPriority(str, enum.Enum):
     BAJA = "baja"
     MEDIA = "media"
     ALTA = "alta"
+    CRITICA = "critica"  # ← AGREGADO
 
 class SemaphoreColor(str, enum.Enum):
     """Colores de semáforo"""
     VERDE = "verde"
     AMARILLO = "amarillo"
     ROJO = "rojo"
+
+# Alias para compatibilidad con código existente
+Priority = PQRSPriority  # ← AGREGADO
 
 class PQRS(Base):
     """
@@ -48,7 +52,7 @@ class PQRS(Base):
     type = Column(SQLEnum(PQRSType), nullable=False, index=True,
                  comment="Tipo: peticion, queja, reclamo, sugerencia")
     priority = Column(SQLEnum(PQRSPriority), nullable=False, default=PQRSPriority.MEDIA,
-                     comment="Prioridad: baja, media, alta")
+                     comment="Prioridad: baja, media, alta, critica")  # ← ACTUALIZADO COMENTARIO
     
     # Contenido
     subject = Column(String(255), nullable=False,
